@@ -35,17 +35,16 @@ items:
 
   The Discord webhook URL where new feed items will be sent.
 
-- color (string, optional, default: "#000000")
+- color (string, optional, default: `"#000000"`)
 
-  A hexadecimal color code used for Discord embed messages (e.g., "#ad1a08").
+  A hexadecimal color code used for Discord embed messages.
 
 - interval (integer, optional, default: 0)
 
   The minimal interval in minutes. If the time since the last check is less than this value, the feed will be skipped.
 
 ### Run the Tool
-
-Set the path of the configuration file as an `R22W_CONFIG` environment variable, and run:
+Set the path to your configuration file using the `R2W_CONFIG` environment variable, then run:
 ```
 ./rss2webhook
 ```
