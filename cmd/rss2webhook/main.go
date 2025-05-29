@@ -69,6 +69,8 @@ func main() {
 				return
 			}
 
+			color := parseColor(item.Color)
+
 			for j := range feed.Items {
 				feedItem := feed.Items[len(feed.Items)-j-1]
 
@@ -91,7 +93,7 @@ func main() {
 						Description: "",
 						URL:         feedItem.Link,
 						Timestamp:   *feedItem.PublishedParsed,
-						Color:       parseColor(item.Color),
+						Color:       color,
 						Footer: discord.Footer{
 							Text: feed.Title,
 						},
@@ -112,7 +114,7 @@ func main() {
 					mu.Unlock()
 					continue
 				}
-				log.Printf("Sent webhook: %s", feedItem.Title)
+				log.Printf("Sent webhook: %s", feedItem.GUID)
 			}
 			mu.Lock()
 			config.Items[i].LastAccessed = time.Now()
@@ -170,8 +172,9 @@ func writeConfigFile(path string, config Config) error {
 }
 
 func parseColor(hex string) int {
-	i, err := strconv.ParseInt(strings.Replace(hex, "#", "", -1), 16, 8)
+	i, err := strconv.ParseUint(strings.Replace(hex, "#", "", -1), 16, 24)
 	if err != nil {
+		log.Printf("Error parsing color %s: %v", hex, err)
 		return 0x000000
 	}
 	return int(i)
