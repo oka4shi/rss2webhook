@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"html"
 	"io"
 	"log"
 	"net/http"
@@ -88,7 +89,7 @@ func main() {
 
 				embed := []discord.Embed{
 					{
-						Title:       feedItem.Title,
+						Title:       html.UnescapeString(feedItem.Title),
 						Type:        "rich",
 						Description: "",
 						URL:         feedItem.Link,
